@@ -4,8 +4,8 @@ import createTokenAndSaveCookie from "../jwt/generateToken.js";
 
 export const signup = async (req, res) => {
     try {
-        const { name, email, password, confirmpassword } = req.body;
-        if (password !== confirmpassword) {
+        const { name, email, password, confirmPassword } = req.body;
+        if (password !== confirmPassword) {
             return res.status(400).json({ error: "Passwords do not match" });
         }
         const user = await User.findOne({ email });
