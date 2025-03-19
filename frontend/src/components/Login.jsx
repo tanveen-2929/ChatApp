@@ -1,16 +1,46 @@
-
+import { useForm } from "react-hook-form"
 import React from 'react'
+import axios from 'axios'
 
 const Login = () => {
+
+const { register, handleSubmit, formState: { errors }, } = useForm() 
+
+const onSubmit = (data) => {
+    console.log("User Info:", data); // Log the user info for debugging
+
+    const userInfo = {
+      email: data.email,                                                                                                                                                                                    
+      password: data.password,
+    };
+    axios.post("http://localhost:5002/user/login", userInfo)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data) {
+          alert("User Login Successfully");
+        }
+        localStorage.setItem("messenger", JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        if (error.response) {
+          alert("Error:" + error.response.data.error);
+        }
+      })
+  };
+
+
+
+
   return (
       <>
        <div className='flex h-screen items-center justify-center'>
-        <form className='border border-white px-8 py-3 rounded-md space-y-3 w-96'>
+        <form className='border border-white px-8 py-3 rounded-md space-y-3 w-96' onSubmit={handleSubmit(onSubmit)}>
           <h1 className='text-cyan-300 text-2xl items-center font-bold' >Messenger</h1>
           <h2 className='text-2xl items-center'> Login with your
             <span className='text-cyan-300 font-semibold'> Account</span></h2>
           
           {/* Email */}
+          {errors.email && <span className="text-red-200 text-sm">**This field is required**</span>}
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -23,10 +53,11 @@ const Login = () => {
             <input
               type="email"
               className="grow"
-              placeholder="Email" />
+              placeholder="Email" {...register("email", { required: true })}/>
           </label>
           
           {/* Password */}
+          {errors.password && <span className="text-red-200 text-sm">**This field is required**</span>}
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +74,7 @@ const Login = () => {
             <input
               type="password"
               className="grow"
-              placeholder="Password" />
+              placeholder="Password" {...register("password", { required: true })}/>
           </label>
 
             {/* Text and Button */}

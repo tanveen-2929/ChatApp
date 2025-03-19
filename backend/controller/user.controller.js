@@ -19,12 +19,18 @@ export const signup = async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            confirmpassword: hashedPassword,
+            confirmPassword: hashedPassword, // Corrected to confirmPassword
         });
         await newUser.save();
         if (newUser) {
             createTokenAndSaveCookie(newUser._id, res);
-            res.status(201).json({ message: "User Registered Successfully", newUser });
+            res.status(201).json({
+                message: "User Registered Successfully",
+                user: {
+                _id: newUser._id,
+                fullname: newUser.fullname,
+                email: newUser.email,
+            }, });
         }
     } catch (error) {
         console.error("Signup Error:", error);

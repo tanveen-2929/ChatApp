@@ -1,12 +1,35 @@
 import { useForm } from "react-hook-form"
 import React from 'react'
+import axios from 'axios'
 
 const Signup = () => {
   const { register, handleSubmit, watch, formState: { errors }, } = useForm()      //react-hook-form site from browser
   const password = watch("password", "");
   const confirmPassword = watch("confirmPassword","")
   const validatePasswordMatch = (value) => { return value === password || "Password and Confirm Password Don't Match"; }
-  const onSubmit = (data) => console.log(data)
+const onSubmit = (data) => {
+    console.log("User Info:", data); // Log the user info for debugging
+
+    const userInfo = {
+      name: data.name,
+      email: data.email,                                                                                                                                                                                    
+      password: data.password,
+      confirmPassword: data.confirmPassword
+    };
+    axios.post("http://localhost:5002/user/signup", userInfo)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data) {
+          alert("User Created Successfully");
+        }
+        localStorage.setItem("messenger", JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        if (error.response) {
+          alert("Error:" + error.response.data.error);
+        }
+      })
+  };
 
   return (
     <>
