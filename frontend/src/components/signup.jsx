@@ -1,13 +1,16 @@
 import { useForm } from "react-hook-form"
-import React from 'react'
+import React, { useContext } from 'react'
 import axios from 'axios'
+import { useAuth } from "../context/AuthProvider"
+import { Link } from "react-router-dom"
 
 const Signup = () => {
+  const [authUser, setAuthUser] = useAuth();
   const { register, handleSubmit, watch, formState: { errors }, } = useForm()      //react-hook-form site from browser
   const password = watch("password", "");
   const confirmPassword = watch("confirmPassword","")
   const validatePasswordMatch = (value) => { return value === password || "Password and Confirm Password Don't Match"; }
-const onSubmit = (data) => {
+const onSubmit = async (data) => {
     console.log("User Info:", data); // Log the user info for debugging
 
     const userInfo = {
@@ -16,13 +19,14 @@ const onSubmit = (data) => {
       password: data.password,
       confirmPassword: data.confirmPassword
     };
-    axios.post("http://localhost:5002/user/signup", userInfo)
+    await axios.post("http://localhost:5002/user/signup", userInfo)
       .then((response) => {
         console.log(response.data);
         if (response.data) {
           alert("User Created Successfully");
         }
         localStorage.setItem("messenger", JSON.stringify(response.data));
+        setAuthUser(response.data);
       })
       .catch((error) => {
         if (error.response) {
@@ -115,7 +119,7 @@ const onSubmit = (data) => {
           <div className='flex justify-between'>
             <input type="submit" value="Signup"  className='text-black font-semibold cursor-pointer bg-cyan-200 w-full py-2 rounded-xl'/>
           </div>
-          <p>Have any Account? <span className='text-cyan-300 underline cursor-pointer ml-1'>Login</span></p>
+          <p>Have any Account? <Link to ={"/login"} className='text-cyan-300 underline cursor-pointer ml-1'>Login</Link></p>
         </form>
       </div>
     </>

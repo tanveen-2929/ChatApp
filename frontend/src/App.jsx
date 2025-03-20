@@ -4,17 +4,29 @@ import Right from "./home/right/Right"
 import Logout from './home/left1/Logout'
 import Login from './components/Login'
 import Signup from './components/signup'
+import { useAuth } from './context/AuthProvider'
+import { Routes, Route, Navigate } from 'react-router-dom'
 function App() {
+  const [authUser, setAuthUser] = useAuth();
+  console.log(authUser);
   return (
-  <>
-      {/* <div className='flex h-screen'>
+    <>      
+      <Routes>
+        <Route path="/" element={
+          authUser?(<div className='flex h-screen'>
         <Logout/>
       <Left />
         <Right />
-        </div> */}
+          </div>) : (
+              <Navigate to={"/Login"} /> 
+        )
+        } />
+        <Route path="/signup" element={authUser ? <Navigate to={"/"} /> : <Signup />} />
+        
+        <Route path="/login" element={authUser ? <Navigate to={"/"} /> : <Login />} />
+
+      </Routes>
       
-      <Login />
-      {/* <Signup/> */}
     </>
   )
 }
