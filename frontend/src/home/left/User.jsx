@@ -1,6 +1,6 @@
 import React from 'react'
 
-const User = () => {
+const User = ({ user }) => {
   return (
       <>
     <div className='flex space-x-6 px-3 py-4 hover:bg-slate-600 duration-300 cursor-pointer'>
@@ -10,8 +10,8 @@ const User = () => {
     </div>
     </div>
     <div className='h-[10%]'>
-    <h1 className='font-bold'>Tanveen Kaur</h1>
-    <p>tanveen12@gmail.com</p>
+          <h1 className='font-bold'>{user.name}</h1>
+          <p>{ user.email}</p>
     </div>
     </div>
       </>

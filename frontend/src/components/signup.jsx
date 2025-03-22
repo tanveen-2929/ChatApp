@@ -19,7 +19,7 @@ const onSubmit = async (data) => {
       password: data.password,
       confirmPassword: data.confirmPassword
     };
-    await axios.post("http://localhost:5002/user/signup", userInfo)
+    await axios.post("/api/user/signup", userInfo)
       .then((response) => {
         console.log(response.data);
         if (response.data) {
