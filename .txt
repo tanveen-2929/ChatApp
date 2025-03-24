@@ -1,0 +1,20 @@
+*******message model*****
+ prity send message to lucky
+ _id = jkehiwrhfkern ( id generate from mongodb)  (different id generate)
+SeenderId  = 67da98f843b1bd23f35dec63 (prity) 
+RecieverId  = 67de4421551a756b14ccf577 (lucky)
+message   = "hello"
+  
+
+lucky reply to prity
+ _id = jkehiwkern ( id generate from mongodb)  (different id generate)
+SeenderId = 67de4421551a756b14ccf577 (lucky)
+RecieverId  = 67da98f843b1bd23f35dec63 (prity) 
+message   = "hi"
+
+
+
+Conversation model
+_id = ejkwhifnw  (unique id generate from mongodb)
+member [senderId,receiverId]
+message [_id]
