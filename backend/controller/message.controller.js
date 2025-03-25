@@ -1,4 +1,3 @@
-import { getReceiverSocketId, io } from "../SocketIO/server.js";
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
 export const sendMessage = async (req, res) => {
@@ -12,9 +11,13 @@ export const sendMessage = async (req, res) => {
     });
     if (!conversation) {
       conversation = await Conversation.create({
-        members: [senderId, receiverId],
+        participants: [senderId, receiverId],
       });
     }
+    if (!message || message.trim() === "") {
+      return res.status(400).json({ error: "Message cannot be empty" });
+    }
+
     const newMessage = new Message({
       senderId,
       receiverId,
@@ -25,27 +28,27 @@ export const sendMessage = async (req, res) => {
     }
 
     await Promise.all([conversation.save(), newMessage.save()]); // run parallel
-    res.status(201).json({ message: "Message sent succesfully" });
+    res.status(201).json({ message: "Message sent succesfully", newMessage });
   } catch (error) {
     console.log("Error in sendMessage", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-// export const getMessage = async (req, res) => {
-//   try {
-//     const { id: chatUser } = req.params;
-//     const senderId = req.user._id; // current logged in user
-//     let conversation = await Conversation.findOne({
-//       members: { $all: [senderId, chatUser] },
-//     }).populate("messages");
-//     if (!conversation) {
-//       return res.status(201).json([]);
-//     }
-//     const messages = conversation.messages;
-//     res.status(201).json(messages);
-//   } catch (error) {
-//     console.log("Error in getMessage", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// };
+export const getMessage = async (req, res) => {
+  try {
+    const { id: chatUser } = req.params;
+    const senderId = req.user._id; // current logged in user
+    let conversation = await Conversation.findOne({
+      participants: { $all: [senderId, chatUser] },
+    }).populate("messages");
+    if (!conversation) {
+      return res.status(201).json([]);
+    }
+    const messages = conversation.messages;
+    res.status(201).json(messages);
+  } catch (error) {
+    console.log("Error in getMessage", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

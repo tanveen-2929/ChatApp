@@ -1,19 +1,24 @@
-import React from 'react'
+import React from "react";
 
-const Message = () => {
+const Message = ({ message }) => {
+  const authUser = JSON.parse(localStorage.getItem("messenger"));
+  const itsme = message.senderId === authUser.user._id;
+  // console.log(authUser.user._id);
+  // console.log(message.senderId);
+  const chatName = itsme ? "chat-end" : "chat-start";
+  const chatColor = itsme ? "bg-blue-400" : "";
+
   return (
-      <>
-      
-       <div className='p-4'>
-            <div className="chat chat-end">
-            <div className="chat-bubble chat-bubble-info">Calm down, Anakin.</div>
-            </div>
-            <div className="chat chat-start">
-            <div className="chat-bubble chat-bubble-accent">That's never been done in the history of the Jedi.</div>
-            </div>        
+    <>
+      <div className="p-4">
+        <div className={`chat ${chatName}`}>
+          <div className={`chat-bubble text-white ${chatColor}`}>
+            {message.message}
           </div>
-          </>
-  )
-}
+        </div>
+      </div>
+    </>
+  );
+};
 
-export default Message
+export default Message;

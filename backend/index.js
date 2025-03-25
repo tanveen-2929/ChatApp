@@ -5,8 +5,9 @@ import userRoute from "./route/user.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import messageRoute from "./route/message.route.js";
+import { app } from "./socketIO/server.js";
+import { server } from "./socketIO/server.js";
 
-const app = express();
 dotenv.config();
 
 app.use(express.json());
@@ -28,7 +29,7 @@ app.use((req, res) => {
 try {
   await mongoose.connect(URI);
   console.log("MongoDB Connected");
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`Server is Running on port ${PORT}`);
   });
 } catch (error) {
