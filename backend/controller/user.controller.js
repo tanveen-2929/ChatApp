@@ -1,9 +1,9 @@
 import User from "../models/user.model.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import createTokenAndSaveCookie from "../jwt/generateToken.js"; // Importing the function
 
 export const signup = async (req, res) => {
-    // Function implementation
+  // Function implementation
   try {
     const { name, email, password, confirmPassword } = req.body;
     if (password !== confirmPassword) {
@@ -41,7 +41,7 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    // Function implementation
+  // Function implementation
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
