@@ -1,12 +1,39 @@
-# React + Vite
+# Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A real-time chat application built with React and vite and socketio,
 
-Currently, two official plugins are available:
+## Features
+- Real-time messaging
+- User authentication
+- Responsive design
+- Getting Started
+  - Follow the installation instructions to set up the project.
+- API Documentation
+  - Refer to the API endpoints for integration.
+- Testing
+  - Run tests using the command: `npm test`
+- Deployment
+  - Guidelines for deploying the application to production.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+To clone the repository and install dependencies, run:
+```
+git clone https://github.com/tanveen-2929/ChatApp.git
+cd backend
+npm install
+```
 
-## Expanding the ESLint configuration
+## Usage
+To run the application, use:
+```
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Contributing
+Guidelines for contributing to the project.
+
+## License
+This project is licensed under the MIT License.
+
+## Link of this project to check the output
+https://chatapp-0xsv.onrender.com
