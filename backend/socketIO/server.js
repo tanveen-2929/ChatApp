@@ -1,9 +1,11 @@
 import http from "http";
 import express from "express";
 const app = express();
+import { Server } from "socket.io"; // ✅ Correct import
 
-let server = http.createServer(app);
-const io = new server(server, {
+const server = http.createServer(app); // ✅ Create HTTP server properly
+const io = new Server(server, {
+  // ✅ Use 'Server' class from 'socket.io'
   cors: {
     origin: "https://chatapp-0xsv.onrender.com",
     methods: ["GET", "POST"],
