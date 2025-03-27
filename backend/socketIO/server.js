@@ -1,6 +1,6 @@
 import http from "http";
 import express from "express";
-import { server } from "../SocketIO/server.js";
+import { server } from "../socketIO/server.js";
 
 const app = express();
 
