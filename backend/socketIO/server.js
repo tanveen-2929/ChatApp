@@ -1,10 +1,10 @@
-import server from "./SocketIO/server.js";
 import http from "http";
 import express from "express";
+import { server } from "../SocketIO/server.js";
 
 const app = express();
 
-const server = http.createServer(app);
+const Server = http.createServer(app);
 const io = new server(server, {
   cors: {
     origin: "https://chatapp-0xsv.onrender.com",
