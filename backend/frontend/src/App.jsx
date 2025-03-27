@@ -2,7 +2,7 @@ import React from "react";
 import Left from "./home/left/Left";
 import Right from "./home/right/Right";
 import Login from "./components/Login";
-import Signup from "./components/signup";
+import Signup from "./components/Signup";
 import { useAuth } from "./context/AuthProvider";
 import { Toaster } from "react-hot-toast";
 import { Routes, Route, Navigate } from "react-router-dom";
