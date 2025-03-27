@@ -1,7 +1,10 @@
+import { getReceiverSocketId, io } from "../SocketIO/server.js";
+
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+const connectedUsers = {}; // This will hold the mapping of user IDs to socket IDs
+
 export const sendMessage = async (req, res) => {
-  // console.log("message send", req.params.id, req.body.message);
   try {
     const { message } = req.body;
     const { id: receiverId } = req.params;
@@ -14,9 +17,6 @@ export const sendMessage = async (req, res) => {
         participants: [senderId, receiverId],
       });
     }
-    if (!message || message.trim() === "") {
-      return res.status(400).json({ error: "Message cannot be empty" });
-    }
 
     const newMessage = new Message({
       senderId,
@@ -28,10 +28,16 @@ export const sendMessage = async (req, res) => {
     }
 
     await Promise.all([conversation.save(), newMessage.save()]); // run parallel
-    res.status(201).json({ message: "Message sent succesfully", newMessage });
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+    res.status(201).json(newMessage);
   } catch (error) {
-    console.log("Error in sendMessage", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log("Error in sendMessage", error.message);
+    res
+      .status(500)
+      .json({ error: "Internal server error", details: error.message });
   }
 };
 
