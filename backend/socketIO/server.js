@@ -1,7 +1,5 @@
 import http from "http";
 import express from "express";
-import { server } from "../socketIO/server.js";
-
 const app = express();
 
 let server = http.createServer(app);
